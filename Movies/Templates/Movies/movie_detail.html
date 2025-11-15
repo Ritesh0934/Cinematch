@@ -1,0 +1,58 @@
+{% extends 'Movies/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-md-8">
+      <h2>{{ movie.title }}</h2>
+      <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+      <p><strong>Rating:</strong> ⭐ {{ movie.vote_average }}</p>
+      <p>{{ movie.overview }}</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <h4>User Reviews</h4>
+  {% for r in reviews %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <strong>{{ r.user.username }}</strong> ⭐ {{ r.rating }}/5
+      <p>{{ r.comment }}</p>
+      <small class="text-muted">{{ r.created_at|date:"M d, Y H:i" }}</small>
+    </div>
+  </div>
+  {% empty %}
+  <p>No reviews yet. Be the first to review!</p>
+  {% endfor %}
+
+  <hr>
+
+  {% if user.is_authenticated %}
+  <h5>Add Your Review</h5>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Submit</button>
+  </form>
+  {% else %}
+  <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
+  {% endif %}
+
+  <hr>
+
+  <h4>Similar Movies</h4>
+  <div class="row">
+    {% for s in similar %}
+    <div class="col-md-2 mb-3">
+      <a href="{% url 'movie_detail' s.id %}">
+        <img src="https://image.tmdb.org/t/p/w500{{ s.poster_path }}" class="img-fluid rounded">
+      </a>
+      <p class="small">{{ s.title }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

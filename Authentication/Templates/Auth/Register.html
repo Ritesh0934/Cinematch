@@ -1,0 +1,182 @@
+{% extends "Auth/base.html" %}
+
+{% block title %}Register - Cinematch{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .register-card {
+        width: 90%;
+        max-width: 400px; /* Further reduced width */
+        height: auto; /* Reduced height */
+        background: linear-gradient(135deg, rgba(20, 20, 25, 0.8), rgba(40, 40, 50, 0.8));
+        backdrop-filter: blur(20px);
+        border-radius: 18px;
+        padding: 30px 25px; /* Further reduced padding */
+        box-shadow: 0 0 40px rgba(0, 255, 153, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s ease;
+    }
+
+    .register-card:hover {
+        box-shadow: 0 0 60px rgba(0, 255, 153, 0.25);
+        transform: translateY(-5px);
+    }
+
+    .register-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #00ff99;
+        text-align: center;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .form-label {
+        color: #ccc;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 14px 16px;
+        color: #fff;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #00ff99;
+        box-shadow: 0 0 8px rgba(0, 255, 153, 0.3);
+        background: rgba(255, 255, 255, 0.12);
+        outline: none;
+    }
+
+    .btn-register {
+        background: linear-gradient(90deg, #00ff99, #00c2a8);
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-weight: 600;
+        color: #000;
+        width: 100%;
+        font-size: 1.1rem;
+        transition: 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-register:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 25px rgba(0, 255, 153, 0.4);
+        background: linear-gradient(90deg, #00e68a, #00a896);
+    }
+
+    .text-muted {
+        text-align: center;
+        margin-top: 20px;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .text-muted a {
+        color: #00ff99;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .text-muted a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .register-card {
+            padding: 40px 25px;
+            max-width: 95%;
+        }
+
+        .register-title {
+            font-size: 1.6rem;
+        }
+    }
+</style>
+
+<div class="register-card">
+    <h2 class="register-title">Create Your Account</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Username -->
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username }}
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            {{ form.email }}
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            {{ form.password1 }}
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-4">
+            <label class="form-label">Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-register">Register</button>
+    </form>
+
+    <p class="text-muted">
+        Already have an account? 
+        <a href="{% url 'login' %}">Login here</a>
+    </p>
+</div>
+{% endblock %}
