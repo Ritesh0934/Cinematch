@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "369ffca877827941736ce542bcbffce9"
+API_KEY = "Enter Your TMDB API KEY"
 BASE_URL = "https://api.themoviedb.org/3"
 
 def get_popular_movies(page=1, language="en-US"):
