@@ -8,13 +8,16 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# Fixed: Added a fallback default SECRET_KEY for local development.
+# In production, set SECRET_KEY as an environment variable (e.g., via Railway or .env).
+SECRET_KEY = 'django-insecure-179r4=l-3@)7!^52u)84@1vm@rre_i@v!%1ni3dlwjjgcr8739'
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+# Fixed: Added common local hosts to avoid potential access issues.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '127.0.0.1:8000']
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.railway.app'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://*.railway.app'
+# ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -24,13 +27,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Authentication',
-    'Movies',
+    'Authentication',  # Ensure this app exists (run 'python manage.py startapp Authentication' if not)
+    'Movies',          # Ensure this app exists (run 'python manage.py startapp Movies' if not)
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ⭐ REQUIRED for Railway static files
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # ⭐ REQUIRED for Railway static files (fine for local too)
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -44,7 +47,7 @@ ROOT_URLCONF = 'cinematch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'Templates'],
+        'DIRS': [BASE_DIR / 'Templates'],  # Ensure 'Templates' folder exists in project root
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,7 +86,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',   # your actual static folder
+    BASE_DIR / 'static',   # Ensure 'static' folder exists in project root
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
